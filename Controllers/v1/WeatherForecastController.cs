@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace KaseyWebApi.Controllers.v1;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/v1/[controller]")]
 [Produces("application/json")]
 public class WeatherForecastController : Controller
 {

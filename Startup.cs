@@ -1,7 +1,6 @@
 using KaseyWebApi.ClientServices;
 using KaseyWebApi.Context;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 
 namespace KaseyWebApi;
@@ -71,8 +70,9 @@ public class Startup
             app.UsePathBase(pathBase);
         }
 
-        var globalPathBase = new PathString("/api/v1");
-        app.UsePathBase(globalPathBase);
+        // var globalPathBase = new PathString("/api/v1");
+        // app.UsePathBase(globalPathBase);
+
         app.UseRouting();
         app.UseEndpoints(builder => builder.MapControllers());
 
@@ -93,7 +93,7 @@ public class Startup
             .UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "KC HTTP API V1");
-                options.RoutePrefix = string.Empty;
+                options.RoutePrefix = "swagger";
             });
     }
 }

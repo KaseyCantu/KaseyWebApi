@@ -1,11 +1,10 @@
-using Microsoft.AspNetCore.Mvc;
 using KaseyWebApi.ClientServices;
-using KaseyWebApi.DataModel.GitHubResponseTypes;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KaseyWebApi.Controllers.v1;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/v1/[controller]")]
 [Produces("application/json")]
 public class GitHubController : Controller
 {
@@ -22,7 +21,7 @@ public class GitHubController : Controller
     {
         try
         {
-            GitHubUser? responseBody = await _gitHubService.GetCurrentUser();
+            var responseBody = await _gitHubService.GetCurrentUser();
             return Ok(responseBody);
         }
         catch (HttpRequestException ex)

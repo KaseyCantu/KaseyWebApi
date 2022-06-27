@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace KaseyWebApi.Controllers.v1;
 
 [ApiController]
-[Route("[controller]")]
+[Route("/api/v1/[controller]")]
 [Produces("application/json")]
 public class ValuesController : Controller
 {
@@ -18,7 +18,7 @@ public class ValuesController : Controller
     [HttpGet]
     public IActionResult Get([FromQuery] int pageSize = 25, [FromQuery] int pageIndex = 0)
     {
-        int total = _items.Count;
+        var total = _items.Count;
 
         List<string> _itemsOnPage;
         _itemsOnPage = pageSize * pageIndex + pageSize > total
