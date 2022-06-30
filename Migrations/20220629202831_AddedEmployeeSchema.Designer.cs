@@ -3,6 +3,7 @@ using System;
 using KaseyWebApi.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KaseyWebApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220629202831_AddedEmployeeSchema")]
+    partial class AddedEmployeeSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,7 +70,7 @@ namespace KaseyWebApi.Migrations
 
                     b.HasKey("EmployeeId");
 
-                    b.ToTable("employees");
+                    b.ToTable("Employees");
 
                     b.HasData(
                         new
@@ -83,7 +85,7 @@ namespace KaseyWebApi.Migrations
                             MaritalStatus = "M",
                             ModifiedDate = new DateTime(2022, 5, 27, 5, 0, 0, 0, DateTimeKind.Utc),
                             NationalIdNumber = "8989898989898989",
-                            RowGuid = new Guid("46d9d0fb-0310-4723-9d03-90f6787b4303"),
+                            RowGuid = new Guid("31001f30-95a6-4e1c-8004-ea7521c2323a"),
                             SickLeaveHours = (short)300,
                             VacationHours = (short)500
                         });
@@ -114,8 +116,8 @@ namespace KaseyWebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d16775b0-854d-470c-ad03-f2f6f14262d0",
-                            CreatedAt = "6/29/2022 3:33:05 PM",
+                            Id = "5c1ee9c7-3174-4d2b-8980-4643e3714379",
+                            CreatedAt = "6/29/2022 3:28:31 PM",
                             Description = "Search Engine",
                             LinkUrl = "https://google.com",
                             Topic = "Learning"
@@ -153,7 +155,7 @@ namespace KaseyWebApi.Migrations
                         new
                         {
                             UserId = 7,
-                            CreatedDate = new DateTime(2022, 6, 29, 20, 33, 5, 91, DateTimeKind.Utc).AddTicks(5250),
+                            CreatedDate = new DateTime(2022, 6, 29, 20, 28, 31, 446, DateTimeKind.Utc).AddTicks(2480),
                             DisplayName = "KPC",
                             Email = "kaseypaulcantu@gmail.com",
                             Password = "password321",

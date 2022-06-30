@@ -1,6 +1,11 @@
+using System.Text;
 using KaseyWebApi.ClientServices;
 using KaseyWebApi.Context;
+using KaseyWebApi.Interfaces;
+using KaseyWebApi.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace KaseyWebApi;
@@ -17,6 +22,22 @@ public class Startup
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+        // Configure Authentication
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidAudience = this.Configuration["Jwt:Audience"],
+                    ValidIssuer = this.Configuration["Jwt:Issuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.Configuration["Jwt:Key"]))
+                };
+            });
+
         // Configure server controllers and endpoints
         services.AddControllers();
         services.AddEndpointsApiExplorer();
@@ -28,8 +49,12 @@ public class Startup
             options
                 .EnableSensitiveDataLogging()
                 .UseNpgsql(
-                    @"Host=localhost:5432;Username=postgres;Password=postgres;Database=asp_kc_db"
+                    @"Host=localhost:5432;Username=postgres;Password=postgres;Database=asp_kc_db_dev"
                 ));
+
+        services.AddTransient<IUsers, UserRepository>();
+
+        services.AddTransient<IEmployees, EmployeeRepository>();
 
         // Configure Swagger OpenAPI services
         services.AddSwaggerGen(options =>
@@ -60,6 +85,7 @@ public class Startup
     {
         if (!env.IsDevelopment())
         {
+            Console.WriteLine("ENV IS NOT DEVELOPMENT");
             app.UseHsts();
             app.UseHttpsRedirection();
         }
@@ -74,6 +100,11 @@ public class Startup
         // app.UsePathBase(globalPathBase);
 
         app.UseRouting();
+
+        // Enforce authentication on web api service - JWT bearer token based
+        app.UseAuthentication();
+        app.UseAuthorization();
+
         app.UseEndpoints(builder => builder.MapControllers());
 
         app.UseHttpLogging();
@@ -86,7 +117,6 @@ public class Startup
             await next();
         });
 
-        app.UseAuthentication();
         // TODO: need to get local certs working
         // app.UseHttpsRedirection();
         app.UseSwagger()
