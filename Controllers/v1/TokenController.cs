@@ -55,7 +55,7 @@ public class TokenController : ControllerBase
                     expires: DateTime.UtcNow.AddMinutes(10),
                     signingCredentials: signIn);
 
-                return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+                return Ok(new { encryptedApiKey = new JwtSecurityTokenHandler().WriteToken(token) });
             }
 
             return BadRequest(new { message = "Invalid credentials" });
