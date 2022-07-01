@@ -3,14 +3,12 @@ using System.Security.Claims;
 using System.Text;
 using KaseyWebApi.Context;
 using KaseyWebApi.DataModel;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 namespace KaseyWebApi.Controllers.v1;
 
-[Authorize]
 [ApiController]
 [Route("api/v1/[controller]")]
 [Produces("application/json")]
@@ -52,7 +50,7 @@ public class TokenController : ControllerBase
                     _configuration["Jwt:Issuer"],
                     _configuration["Jwt:Audience"],
                     claims,
-                    expires: DateTime.UtcNow.AddMinutes(10),
+                    expires: DateTime.UtcNow.AddMonths(6),
                     signingCredentials: signIn);
 
                 return Ok(new { encryptedApiKey = new JwtSecurityTokenHandler().WriteToken(token) });
