@@ -52,6 +52,7 @@ public class Startup
                     @"Host=localhost:5432;Username=postgres;Password=postgres;Database=asp_kc_db_dev"
                 ));
 
+        // Configure transient services
         services.AddTransient<IUsers, UserRepository>();
 
         services.AddTransient<IEmployees, EmployeeRepository>();
@@ -59,6 +60,31 @@ public class Startup
         // Configure Swagger OpenAPI services
         services.AddSwaggerGen(options =>
         {
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Name = "Authorization",
+                Type = SecuritySchemeType.ApiKey,
+                Scheme = "Bearer",
+                BearerFormat = "JWT",
+                In = ParameterLocation.Header,
+                Description = "JWT Authorization header using the Bearer scheme."
+            });
+
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    new string[] { }
+                }
+            });
+
             options.SwaggerDoc("v1", new OpenApiInfo
             {
                 Title = "KC HTTP API",
@@ -67,12 +93,14 @@ public class Startup
             });
         });
 
+        // Configure logging services
         services.AddLogging(opt =>
         {
             opt.AddConsole();
             opt.AddDebug();
         });
 
+        // Configure MVC functionality
         services.AddMvc();
     }
 
