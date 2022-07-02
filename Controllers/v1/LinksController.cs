@@ -34,7 +34,7 @@ public class LinksController : Controller
         {
             _dbContext.Links?.Add(new Link
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    LinkId = Guid.NewGuid().ToString(),
                     LinkUrl = newLink.LinkUrl,
                     Description = newLink.Description,
                     Topic = newLink.Topic,
@@ -60,7 +60,7 @@ public class LinksController : Controller
     {
         try
         {
-            var linkById = _dbContext.Links?.Where(link => link.Id == linkId).First();
+            var linkById = _dbContext.Links?.First(link => link.LinkId == linkId);
             return Ok(linkById);
         }
         catch (Exception e)

@@ -9,16 +9,16 @@ public class Link
     {
     }
 
-    public Link(string? id, string? linkUrl, string? description, string? topic, string createdAt)
+    public Link(string? linkId, string? linkUrl, string? description, string? topic, string createdAt)
     {
-        this.Id = id;
+        this.LinkId = linkId;
         this.LinkUrl = linkUrl;
         this.Description = description;
         this.Topic = topic;
         this.CreatedAt = createdAt;
     }
 
-    public string? Id { get; set; }
+    public string? LinkId { get; set; }
 
     public string? LinkUrl { get; set; }
 
