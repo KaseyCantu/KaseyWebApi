@@ -49,7 +49,7 @@ public class Startup
             options
                 .EnableSensitiveDataLogging()
                 .UseNpgsql(
-                    @"Host=localhost:5432;Username=postgres;Password=postgres;Database=asp_kc_db_dev"
+                    @"Host=localhost:5432;Username=postgres;Password=postgres;Database=asp_kc_pg_db"
                 ));
 
         // Configure transient services
