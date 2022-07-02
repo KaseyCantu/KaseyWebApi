@@ -18,6 +18,45 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        // Employee DB schema
+        modelBuilder.Entity<Employee>(entity =>
+        {
+            entity.Property(e => e.EmployeeId).HasColumnName("EmployeeId");
+            entity.Property(e => e.NationalIdNumber).HasMaxLength(25).IsUnicode(false);
+            entity.Property(e => e.EmployeeName).HasMaxLength(100).IsUnicode(false).IsRequired();
+            entity.Property(e => e.LoginId).HasMaxLength(256).IsUnicode(false);
+            entity.Property(e => e.JobTitle).HasMaxLength(50).IsUnicode(false);
+            entity.Property(e => e.BirthDate).IsUnicode(false).IsRequired();
+            entity.Property(e => e.MaritalStatus).HasMaxLength(1).IsUnicode(false);
+            entity.Property(e => e.Gender).HasMaxLength(1).IsUnicode(false);
+            entity.Property(e => e.HireDate).IsUnicode(false);
+            entity.Property(e => e.VacationHours).IsUnicode(false);
+            entity.Property(e => e.SickLeaveHours).IsUnicode(false);
+            entity.Property(e => e.RowGuid).HasMaxLength(50).IsUnicode(false);
+            entity.Property(e => e.ModifiedDate).IsUnicode(false);
+        });
+
+        // Link DB schema
+        modelBuilder.Entity<Link>(entity =>
+        {
+            entity.Property(l => l.LinkId).HasColumnName("LinkId");
+            entity.Property(l => l.LinkUrl).IsUnicode(false).IsRequired();
+            entity.Property(l => l.Description).HasMaxLength(250).IsUnicode(false).IsRequired();
+            entity.Property(l => l.Topic).IsUnicode(false).IsRequired();
+            entity.Property(l => l.CreatedAt).IsUnicode(false);
+        });
+
+        // UserInfo DB schema
+        modelBuilder.Entity<UserInfo>(entity =>
+        {
+            entity.Property(e => e.UserId).HasColumnName("UserId");
+            entity.Property(e => e.DisplayName).HasMaxLength(60).IsUnicode(false);
+            entity.Property(e => e.UserName).HasMaxLength(30).IsUnicode(false).IsRequired();
+            entity.Property(e => e.Email).HasMaxLength(50).IsUnicode(false).IsRequired();
+            entity.Property(e => e.Password).HasMaxLength(20).IsUnicode(false).IsRequired();
+            entity.Property(e => e.CreatedDate).IsUnicode(false);
+        });
+
         #region EmployeeSeed
 
         modelBuilder
@@ -47,7 +86,7 @@ public class ApplicationDbContext : DbContext
             .Entity<Link>().HasData(
                 new Link
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    LinkId = Guid.NewGuid().ToString(),
                     LinkUrl = "https://google.com",
                     Description = "Search Engine",
                     Topic = "Learning",
