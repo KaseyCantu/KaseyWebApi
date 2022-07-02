@@ -45,12 +45,11 @@ public class Startup
         // Add GitHub typed client service
         services.AddHttpClient<GitHubService>();
 
+        // Configure Database context service
         services.AddDbContext<ApplicationDbContext>(options =>
             options
                 .EnableSensitiveDataLogging()
-                .UseNpgsql(
-                    @"Host=localhost:5432;Username=postgres;Password=postgres;Database=asp_kc_pg_db"
-                ));
+                .UseNpgsql(this.Configuration.GetConnectionString("DefaultConnection")));
 
         // Configure transient services
         services.AddTransient<IUsers, UserRepository>();
