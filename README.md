@@ -10,6 +10,25 @@ Built on `ASP.NET 6.0`
 
 ## To run this project
 
+- This project makes use of the ASP.NET
+  Core [Secret Manager](https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-6.0&tabs=linux)
+  . First, you will need to enable the `Secrets Manager Tool` to create a `userSecretId` for this project on your
+  machine.
+
+```shell
+dotnet user-secrets init
+```
+
+- Next, you will need to update the [newSecrets.json](./newSecrets.json) file with your credentials. We will use this to
+  set all necessary secrets at the same time with the following command.
+
+```shell
+cat ./newSecrets.json | dotnet user-secrets set
+```
+
+- You can use `dotnet user-secrets list` to verify that all secrets were set properly before running the project with
+  either of the next commands.
+
 ```shell
 dotnet run
 ```
