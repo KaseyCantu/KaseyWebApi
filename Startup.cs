@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Npgsql;
 
 namespace KaseyWebApi;
 
@@ -45,11 +46,18 @@ public class Startup
         // Add GitHub typed client service
         services.AddHttpClient<GitHubService>();
 
+        var connectionStringBuilder =
+            new NpgsqlConnectionStringBuilder(this.Configuration.GetConnectionString("DefaultConnection"));
+
+        connectionStringBuilder.Username = this.Configuration["DbUsername"];
+        connectionStringBuilder.Password = this.Configuration["DbPassword"];
+        var connectionString = connectionStringBuilder.ConnectionString;
+
         // Configure Database context service
         services.AddDbContext<ApplicationDbContext>(options =>
             options
                 .EnableSensitiveDataLogging()
-                .UseNpgsql(this.Configuration.GetConnectionString("DefaultConnection")));
+                .UseNpgsql(connectionString));
 
         // Configure transient services
         services.AddTransient<IUsers, UserRepository>();
