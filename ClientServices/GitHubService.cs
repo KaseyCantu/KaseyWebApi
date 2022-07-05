@@ -32,7 +32,7 @@ public class GitHubService
         return await _httpClient.GetFromJsonAsync<GitHubUser>("/user");
     }
 
-    public string DeriveUserAgent()
+    public static string DeriveUserAgent()
     {
         return $"{Environment.MachineName} - {Environment.OSVersion}";
     }
