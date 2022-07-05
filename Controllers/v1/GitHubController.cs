@@ -1,4 +1,5 @@
 using KaseyWebApi.ClientServices;
+using KaseyWebApi.DataModel.GitHubResponseTypes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +20,7 @@ public class GitHubController : Controller
 
     // GET GitHub users test usage of the Depenacy Injection built into C#
     [HttpGet("user")]
-    public async Task<IActionResult> GetGitHubUsers()
+    public async Task<ActionResult<GitHubUser>> GetGitHubUsers()
     {
         try
         {

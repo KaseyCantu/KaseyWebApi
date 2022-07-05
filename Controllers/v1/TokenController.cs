@@ -24,7 +24,7 @@ public class TokenController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post(UserInfo userData)
+    public async Task<ActionResult<ApiKeyResponse>> Post(UserInfo userData)
     {
         if (userData != null && userData.Email != null && userData.Password != null)
         {
@@ -53,7 +53,7 @@ public class TokenController : ControllerBase
                     expires: DateTime.UtcNow.AddMonths(6),
                     signingCredentials: signIn);
 
-                return Ok(new { encryptedApiKey = new JwtSecurityTokenHandler().WriteToken(token) });
+                return Ok(new ApiKeyResponse { EncryptedApiKey = new JwtSecurityTokenHandler().WriteToken(token) });
             }
 
             return BadRequest(new { message = "Invalid credentials" });
@@ -69,5 +69,10 @@ public class TokenController : ControllerBase
                 .Users
                 .FirstOrDefaultAsync(u =>
                     u.Email == email && u.Password == password));
+    }
+
+    public class ApiKeyResponse
+    {
+        public string? EncryptedApiKey { get; set; }
     }
 }

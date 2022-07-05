@@ -21,14 +21,14 @@ public class LinksController : Controller
 
     // GET api/Links
     [HttpGet]
-    public IActionResult GetLinks()
+    public ActionResult<Link> GetLinks()
     {
         return Ok(_dbContext.Links?.ToList());
     }
 
     // POST api/Links
     [HttpPost]
-    public IActionResult PostLink([FromBody] NewLink newLink)
+    public ActionResult<Link> PostLink([FromBody] NewLink newLink)
     {
         try
         {
@@ -56,7 +56,7 @@ public class LinksController : Controller
     // GET api/Links/<linkId>
     // https://docs.microsoft.com/en-us/ef/core/querying/
     [HttpGet("{linkId}")]
-    public IActionResult GetLinkById([FromRoute] string linkId)
+    public ActionResult<Link> GetLinkById([FromRoute] string linkId)
     {
         try
         {
